@@ -43,10 +43,25 @@
         methods : {
             search(){
 
-                if(this.searchWord === '벅스뮤직'){
+                if(this.searchWord === '네이버영화'){
                     this.$store.dispatch('crawling/search',this.searchWord)
                 }else if(this.searchWord === '축구'){
-                    this.$store.dispatch('soccer/search',{seq:this.searchWord})
+                    this.$store.dispatch('soccer/search',this.searchWord)
+                }
+                // switch(this.searchWord){
+                //     case 1 :(this.searchWord === "네이버영화")
+                //         this.$store.dispatch('naver/search',this.searchWord);
+                //         break;
+                //     case 2 :(this.searchWord === "축구")
+                //         실행문;
+                //         break;
+                //     case 3 :(this.searchWord === "벅스뮤직")
+                //         실행문;
+                //         break;
+                //
+                //
+                //     default :(this.searchWord === "벅스뮤직")
+                //         실행문;
                 }
             }
 

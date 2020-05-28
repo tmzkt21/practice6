@@ -1,105 +1,51 @@
 package com.practice.web.proxy;
 
 
+import com.practice.web.music.Music;
+import com.practice.web.music.MusicRepository;
+import com.practice.web.soccer.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*")
 @RestController
-@RequestMapping("/proxys")
+public class ProxyController{ 
+  @Autowired Box<Object> box;
+  @Autowired Crawler crawler;
+  @Autowired FileUploader uploader;
+  @Autowired Proxy pxy;
+  @Autowired MusicRepository musicRepository;
+//    @Autowired FileUploader loader;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 
-public class ProxyController {
-@Autowired Box<Object> box;
-@Autowired Crawler crawler;
-@Autowired Proxy pxy;
-
-@PostMapping("/bugsmusic")
-  public HashMap<String,Object>bugsmusic(@RequestBody String searchWord){
-    pxy.print("넘어온 키워드:" +searchWord);
+  @PostMapping("/bugsmusic")
+  public HashMap<String,Object> bugsmusic(@RequestBody String searchWord){
+    pxy.print("넘어온 키워드: "+searchWord);
     box.clear();
-    ArrayList<HashMap<String,String>> list = crawler.bugsMusic();
-    box.put("list",list);
-    pxy.print("************");
-    pxy.print("조회한수 :" +list.size());
-    box.put("count",list.size());
+    if(musicRepository.count() == 0) crawler.bugsMusic();
+    List<Music> list = musicRepository.findAll();
+    box.put("list", list);
+    box.put("count", list.size());
     return box.get();
   }
-
-  @PostMapping("/soccer")
-  public String soccer(@RequestBody String searchWord){
-    pxy.print("넘어온키워드" +searchWord);
-    return searchWord;
+  @GetMapping("/soccer/{searchWord}")
+  public HashMap<String,String> soccer(@PathVariable String searchWord){
+    pxy.print("넘어온 키워드:"+ searchWord);
+    uploader.upload();
+    return null;
   }
 
+  @GetMapping("/naver/{searchWord}")
+  public HashMap<String,String> naver(@PathVariable String searchWord){
+    pxy.print("넘어온 키워드:" + searchWord);
+    return null;
+  }
 }
 
 
-//  @Autowired Crawler crawler;
-//
-//  @GetMapping("/")
-//  public String home(){
-//    return "안녕크롤링";
-//  }
-//
-//  @GetMapping("/crawler")
-//  public ArrayList<HashMap<String,String>> crawler(){
-//    return crawler.bugsMusic();
-//  }
 
 
-
-
-//    @CrossOrigin(origins="*",allowedHeaders = "*")
-
-//    @CrossOrigin(origins = "*", allowedHeaders = "*")
-//    @RestController
-//    @RequestMapping("/crawer")
-
-//
-//package com.lsg.web.controllers;
-//
-//        import com.lsg.web.domains.PlayerDTO;
-//        import com.lsg.web.services.PlayerService;
-//        import org.springframework.beans.factory.annotation.Autowired;
-//        import org.springframework.web.bind.annotation.*;
-//
-//        import java.util.HashMap;
-//        import java.util.List;
-//        import java.util.Map;
-//
-//@CrossOrigin(origins="*", allowedHeaders = "*")
-//
-//@RestController
-//
-//@RequestMapping("/players")
-//
-//public class PlayerController {
-//    @Autowired
-//    PlayerService playerService;
-//    @Autowired PlayerDTO player;
-//    @GetMapping("")
-//
-//    public List<PlayerDTO> List(){
-//        return playerService.retrieve();
-//    }
-//    @PostMapping("/{playerId}/access")
-//    public Map<String, Object> login(
-//            @PathVariable String playerId,
-//            @RequestBody PlayerDTO params) {
-//        Map<String,Object> map = new HashMap<>();
-//        player = playerService.login(params);
-//        if(player != null){
-//            System.out.println("로그인 정보 "+ player.toString());
-//            map.put("result", true);
-//        }else{
-//            map.put("result", false);
-//        }
-//        map.put("player", player);
-//        return map;
-//    }
-//}

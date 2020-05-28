@@ -1,20 +1,22 @@
 package com.practice.web.soccer;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
+
 import javax.validation.constraints.NotNull;
-import lombok.NoArgsConstructor;
+
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 import java.util.List;
 
-@Data
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name="team")
+@Getter
+@Setter(AccessLevel.PUBLIC) @ToString
+@Entity @NoArgsConstructor @Component @Lazy
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long teamNo;
+    private Long teamSeq;
     @NotNull @Column(length = 10) private String teamId;
     @Column(length = 10) private String regionName;
     @Column(length = 10) private String teamName;
@@ -47,11 +49,11 @@ public class Team {
         this.owner=owner;
     }
 
-    @OneToMany(mappedBy = "team")
+    @OneToMany(mappedBy = "teamOfPlayer")
     private List<Player> players;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stadium_id") @NotNull
-    private Stadium stadium;
+    private Stadium stadiumOfTeam;
 
 
 }
