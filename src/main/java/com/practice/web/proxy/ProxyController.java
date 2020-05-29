@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
-public class ProxyController{ 
+public class ProxyController{
   @Autowired Box<Object> box;
   @Autowired Crawler crawler;
   @Autowired FileUploader uploader;
@@ -21,6 +21,20 @@ public class ProxyController{
   @Autowired MusicRepository musicRepository;
 //    @Autowired FileUploader loader;
 
+
+  @GetMapping("/naver/{searchWord}")
+  public void naver(@PathVariable String searchWord){
+    pxy.print("넘어온 키워드: "+searchWord);
+    crawler.naverMovie();
+  }
+
+
+  @GetMapping("/soccer/{searchWord}")
+  public HashMap<String,String> soccer(@PathVariable String searchWord){
+    pxy.print("넘어온 키워드:"+ searchWord);
+    uploader.upload();
+    return null;
+  }
 
   @PostMapping("/bugsmusic")
   public HashMap<String,Object> bugsmusic(@RequestBody String searchWord){
@@ -32,18 +46,8 @@ public class ProxyController{
     box.put("count", list.size());
     return box.get();
   }
-  @GetMapping("/soccer/{searchWord}")
-  public HashMap<String,String> soccer(@PathVariable String searchWord){
-    pxy.print("넘어온 키워드:"+ searchWord);
-    uploader.upload();
-    return null;
-  }
 
-  @GetMapping("/naver/{searchWord}")
-  public HashMap<String,String> naver(@PathVariable String searchWord){
-    pxy.print("넘어온 키워드:" + searchWord);
-    return null;
-  }
+
 }
 
 

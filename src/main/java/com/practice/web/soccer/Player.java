@@ -4,8 +4,6 @@ package com.practice.web.soccer;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
 
 
@@ -56,7 +54,7 @@ public class Player {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
-    private Team teamOFPlayer;
+    private Team teamOfPlayer;
 
     public Player() {
 
@@ -166,11 +164,11 @@ public class Player {
     }
 
     public Team getTeam() {
-        return teamOFPlayer;
+        return teamOfPlayer;
     }
 
     public void setTeam(Team team) {
-        this.teamOFPlayer = team;
+        this.teamOfPlayer = team;
     }
 
     @Override
@@ -189,7 +187,7 @@ public class Player {
                 ", solar='" + solar + '\'' +
                 ", height='" + height + '\'' +
                 ", weight='" + weight + '\'' +
-                ", teamOFPlayer=" + teamOFPlayer +
+                ", teamOFPlayer=" + teamOfPlayer +
                 '}';
     }
 }

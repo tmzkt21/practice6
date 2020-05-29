@@ -8,25 +8,45 @@ const state = {
 
 }
 const actions = {
-    async search({commit},searchWord){
+    async  search({commit},searchWord){
         alert('검색어:' +searchWord)
+        switch (searchWord) {
+            case '네이버영화':
+                axios.get(state.context + `naver/${searchWord}` )
+                    .then(({data})=>{
+                        alert('액션 자바 데이터 받기 성공')
+                        commit("SEARCH1",data)
+                    })
+                    .catch(()=>{
+                        alert('네이버영화 실패')
+                    })
+                break
+            case '벅스뮤직':
+                axios.post(state.context + `bugsmusic`,searchWord,{
 
-        axios.post(state.context + `bugsmusic`,searchWord,{
+                    authorization: 'JWT fefege..',
+                    Accept : 'application/json',
+                    'Content-Type': 'application/json'
 
-                authorization: 'JWT fefege..',
-                Accept : 'application/json',
-                'Content-Type': 'application/json'
+                })
+                    .then(({data})=>{
+                        alert('검색된 결과수'+data.count)
+                        commit('SEARCH',data)
+                        router.push('/retriever')
+                    })
+                    .catch(()=>{
+                        alert('벅스뮤직 액션실패!')
+                    })
+                break
 
-        })
-            .then(({data})=>{
-                alert('검색된 결과수'+data.count)
-                commit('SEARCH',data)
-                router.push('/retriever')
-            })
-            .catch(()=>{
-                alert('통신 실패!')
-            })
+
+        }
+
+
+
+
     }
+
 }
 const mutations = {
     SEARCH(state, data) {
@@ -47,6 +67,9 @@ const mutations = {
         )
 
 
+    },
+    SEARCH1(){
+        alert("뮤테이션 진입")
     }
 }
 const  getters = {

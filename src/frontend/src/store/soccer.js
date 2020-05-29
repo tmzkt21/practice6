@@ -4,6 +4,7 @@ import router from '@/router'
 const state ={
     context : 'http://localhost:5002/'
 }
+
 const actions ={
     async search({commit},datas) {
         axios.get(state.context + "soccer/" + datas)

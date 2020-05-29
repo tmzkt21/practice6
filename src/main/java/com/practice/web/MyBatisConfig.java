@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 @Configuration
-@MapperScan(basePackages= {"com.practice.web.mapper"})
+@MapperScan(basePackages= {"com.practice.web.mappers"})
 @EnableTransactionManagement
 public class MyBatisConfig {
 
@@ -22,7 +22,7 @@ public class MyBatisConfig {
         final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        sessionFactory.setMapperLocations(resolver.getResources("classpath:com/practice/web/mapper/*.xml"));
+        sessionFactory.setMapperLocations(resolver.getResources("classpath:com/practice/web/mappers/*.xml"));
         return sessionFactory.getObject();
     }
 
