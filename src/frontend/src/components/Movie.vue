@@ -14,9 +14,9 @@
                 <tbody>
                 <tr v-for="item of list" :key="item.seq">
                     <td>{{ item.movieSeq }}</td>
-                    <td>{{ item.rank}}</td>
+                    <td>{{ item.artists}}</td>
                     <td>{{ item.title }}</td>
-                    <td>{{ item.rankDate }}</td>
+                    <td>{{ item.thumbnail }}</td>
                 </tr>
                 </tbody>
             </template>
@@ -54,7 +54,8 @@
         },
         created() {
             axios
-                .get(`${this.$store.state.search.context}/movies/${this.$store.state.search.searchWord}/${this.$store.state.search.pageNumber}`)
+                .get(`${this.$store.state.search.context}/movies/
+                ${this.$store.state.search.searchWord}/${this.$store.state.search.pageNumber}`)
                 .then(res=>{
                     res.data.list.forEach(elem => {this.list.push(elem)})
                     this.pager = res.data.pager

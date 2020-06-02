@@ -1,0 +1,42 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.practice.web.mappers.MusicMapper">
+    <insert id="insertMusic"
+            parameterType="com.practice.web.music.MusicDTO">
+        insert artists, title, thumbnail into music
+        values (#{artists},#{title},#{thumbnail})
+    </insert>
+
+    <update id="updateMusic"
+            parameterType="com.practice.web.music.MusicDTO">
+        update set title = #{title} from music
+        where music_seq like #{musicSeq}
+    </update>
+
+    <delete id="deleteMusic"
+            parameterType="com.practice.web.music.MusicDTO">
+        delete from music where music_seq like #{musicSeq}
+    </delete>
+
+    <select id="selectMusics"
+            resultType="com.practice.web.music.MusicDTO"
+            parameterType="com.practice.web.proxy.Pager">
+       select music_seq musicSeq, artists, title, thumbnail
+      from music
+
+      limit #{rowStart}, #{pageSize}
+
+    </select>
+
+    <select id="selectMusic" resultType="com.practice.web.music.MusicDTO"
+                                parameterType="string">
+      select music_seq movieSeq, artists, title, thumbnail
+      from music
+      where music_seq = #{value}
+    </select>
+    <select id="count" resultType="int">
+      select count(*)
+      from music
+    </select>
+</mapper>

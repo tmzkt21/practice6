@@ -1,22 +1,22 @@
 <template>
     <div>
-        <h3>총게시글수 : {{pager.rowCount}}</h3>
+        <h3>총음악차트 : {{pager.rowCount}}</h3>
         <v-simple-table>
             <template v-slot:default>
                 <thead>
                 <tr>
                     <th class="text-left">No.</th>
-                    <th class="text-left">순위</th>
-                    <th class="text-left">영화제목</th>
-                    <th class="text-left">집계일</th>
+                    <th class="text-left">가수</th>
+                    <th class="text-left">노래</th>
+                    <th class="text-left">썸네일</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="item of list" :key="item.seq">
-                    <td>{{ item.movieSeq }}</td>
-                    <td>{{ item.rank}}</td>
+                    <td>{{ item.musicNo }}</td>
+                    <td>{{ item.artists}}</td>
                     <td>{{ item.title }}</td>
-                    <td>{{ item.rankDate }}</td>
+                    <td>{{ item.thumbnail}}</td>
                 </tr>
                 </tbody>
             </template>
@@ -24,7 +24,7 @@
         <div class="text-center" >
             <div style="margin: 0 auto; width: 500px; height: 100px">
                 <span v-if ='pager.existPrev' style="width: 50px; height: 50px; border: 1px solid black;margin-right: 5px">이전</span>
-                <span v-for='i of pages' :key="i" style="width: 50px; height: 50px; border: 1px solid black;margin-right: 5px">{{i + 5}}</span>
+                <span v-for='i of arr' :key="i" style="width: 50px; height: 50px; border: 1px solid black;margin-right: 5px">{{i + 5}}</span>
                 <span v-if ='pager.existNext' style="width: 50px; height: 50px; border: 1px solid black;margin-right: 5px">다음</span>
             </div>
 
@@ -54,10 +54,8 @@
         },
         created() {
             axios
-                .post('','',{
-                    Accept :'application/json',
-                    'content-type' :'application/json'
-                })
+                .get(`${this.$store.state.search.context}/musics/
+                ${this.$store.state.search.searchWord}/${this.$store.state.search.pageNumber}`)
                 .then(res=>{
                     res.data.list.forEach(elem => {this.list.push(elem)})
                     this.pager = res.data.pager
