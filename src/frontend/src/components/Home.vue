@@ -38,18 +38,21 @@
         components :{},
         data(){
 
-          return   {seaarchWord: ""};
+          return   {searchWord: ""};
+        },
+        created() {
+            alert('홈에서 크리티드 실행됨')
         },
 
         methods : {
             search(){
-
-                if(this.searchWord === '네이버영화'){
-                    this.$store.dispatch('crawling/search',this.searchWord)
-                }else if(this.searchWord === '축구'){
-                    this.$store.dispatch('soccer/search',this.searchWord)
-                }else if(this.searchWord === '벅스뮤직'){
-                    this.$store.dispatch('crawling/search',this.searchWord)
+                switch (this.searchWord) {
+                case '네이버영화' : this.$store.dispatch('crawling/search',this.searchWord)
+                    break
+                    case '축구' : this.$store.dispatch('soccer/search',this.searchWord)
+                        break
+                    case '벅스뮤직' : this.$store.dispatch('crawling/search',this.searchWord)
+                        break
                 }
             }
         }

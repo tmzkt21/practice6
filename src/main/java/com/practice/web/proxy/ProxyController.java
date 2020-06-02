@@ -7,7 +7,6 @@ import com.practice.web.soccer.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,7 +18,6 @@ public class ProxyController{
   @Autowired FileUploader uploader;
   @Autowired Proxy pxy;
   @Autowired MusicRepository musicRepository;
-//    @Autowired FileUploader loader;
 
 
   @GetMapping("/naver/{searchWord}")
@@ -46,8 +44,6 @@ public class ProxyController{
     box.put("count", list.size());
     return box.get();
   }
-
-
 }
 
 

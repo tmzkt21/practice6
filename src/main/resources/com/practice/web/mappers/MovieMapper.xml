@@ -18,15 +18,22 @@
             parameterType="com.practice.web.music.MovieDTO">
         delete from movie where movie_seq like #{movieSeq}
     </delete>
-    <select id="selectMovies" resultType="com.practice.web.music.MovieDTO">
+
+    <select id="selectMovies"
+            resultType="com.practice.web.music.MovieDTO"
+            parameterType="com.practice.web.proxy.Pager">
        select movie_seq movieSeq, rank, title, rank_date rankDate
       from movie
 
+      limit #{rowStart}, #{pageSize}
+
     </select>
-    <select id="selectMovie" resultType="com.practice.web.music.MovieDTO">
+
+    <select id="selectMovie" resultType="com.practice.web.music.MovieDTO"
+                                parameterType="string">
       select movie_seq movieSeq, rank, title, rank_date rankDate
       from movie
-      where movie_seq = #{movieSeq}
+      where movie_seq = #{value}
     </select>
     <select id="count" resultType="int">
       select count(*)

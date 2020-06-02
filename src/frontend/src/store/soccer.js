@@ -2,12 +2,12 @@ import axios from 'axios'
 import router from '@/router'
 
 const state ={
-    context : 'http://localhost:5002/'
+    context : 'http://localhost:5000/'
 }
 
 const actions ={
-    async search({commit},datas) {
-        axios.get(state.context + "soccer/" + datas)
+    async search({commit},searchWord) {
+        axios.get(state.context + `soccer/${searchWord}` )
             .then(({data})=>{
                 alert('검색된 결과수')
                 commit('SEARCH',data)

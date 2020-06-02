@@ -12,7 +12,8 @@ import java.util.List;
 
 @Getter
 @Setter(AccessLevel.PUBLIC) @ToString
-@Entity @NoArgsConstructor @Component @Lazy
+@Entity @NoArgsConstructor
+@Component @Lazy
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

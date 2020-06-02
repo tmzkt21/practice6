@@ -23,11 +23,14 @@
             </template>
         </v-simple-table>
         <div class="text-center">
-            <v-pagination v-model="page" :length="5" :total-visible="5"></v-pagination>
+            <div style="margin: 0 auto; width: 500px; height: 100px">
+            <span v-if="existPrev" style="width: 50px; height: 50px; border: 1px solid black; margin-right: 5px" >이전</span>
+                <span v-for="n of arr" :key="n" style="width: 50px; height: 50px; border: 1px solid black;margin-right: 5px">{{n}}</span>
+                <span v-if="existNext" style="width: 50px; height: 50px; border: 1px solid black;margin-right: 5px" >다음</span>
+            </div>
+<!--            <v-pagination v-model="page" :length="5" :total-visible="5"></v-pagination>-->
         </div>
     </div>
-
-
 </template>
 
 <script>
@@ -35,16 +38,21 @@
     export default {
         data () {
             return {
-                page: 1
+                page: 1,
+                arr : [11,12,13,14,15],
+                existPrev: false,
+                existNext : true,
             }
+        },
+        created() {
+            alert('무비에서 크리티드 실행됨')
         },
         computed: {
             ...mapState({
                 count: state => state.crawling.count,
                 bugsmusic: state => state.crawling.bugsmusic,
                 navermovie:state => state.crawling.navermovie
-
             })
-        }
+        },
     };
 </script>

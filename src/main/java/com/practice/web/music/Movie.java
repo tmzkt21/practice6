@@ -1,13 +1,17 @@
 package com.practice.web.music;
 
 
-import lombok.Builder;
+import lombok.*;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 
-@Entity @Component
+@Getter
+@Setter
+@ToString
+@Entity
+@NoArgsConstructor
 public class Movie {
 
     @Id
@@ -23,39 +27,7 @@ public class Movie {
     @Column(length = 200, nullable = false)
     private String rankDate;
 
-    public Long getMovieSeq() {
-        return movieSeq;
-    }
 
-    public void setMovieSeq(Long movieSeq) {
-        this.movieSeq = movieSeq;
-    }
-
-    public String getRank() {
-        return rank;
-    }
-
-    public void setRank(String rank) {
-        this.rank = rank;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getRankDate() {
-        return rankDate;
-    }
-
-    public void setRankDate(String rankDate) {
-        this.rankDate = rankDate;
-    }
-
-    public Movie(){}
 
     @Builder
     public Movie(String rank,

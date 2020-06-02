@@ -40,8 +40,8 @@ public class Crawler extends Proxy{
             for(int i=0;i < title.size(); i++){
                 music = new Music();
                 music.setSeq(string(i+1));
-                music.setTitle(title.get(i).text());
                 music.setArtists(artist.get(i).text());
+                music.setTitle(title.get(i).text());
                 music.setThumbnail(thumbnail.get(i).select("img").attr("src"));
                 musicRepository.save(music);
             }
@@ -66,6 +66,7 @@ public class Crawler extends Proxy{
             Movie movie = null;
             for(int i=0;i < arr.size(); i++){
                 movie = new Movie();
+//                movie.setMovieSeq(String(i+1));
                 movie.setRank(string(i+1));
                 movie.setTitle(arr.get(i).text());
                 movie.setRankDate(date.get(0).text());

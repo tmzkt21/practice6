@@ -7,7 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Getter @Setter(AccessLevel.PUBLIC) @ToString
-@Entity @NoArgsConstructor @Component @Lazy
+@Entity @NoArgsConstructor
+@Component @Lazy
 public class Schedule {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long scheduleSeq;

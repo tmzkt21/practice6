@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
-@Entity @Lazy
+@Entity @Component @Lazy
 public class Stadium {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long stadiumSeq;

@@ -1,33 +1,34 @@
 package com.practice.web.proxy;
 
 import com.practice.web.mappers.MovieMapper;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-
+@Data
 @Component @Lazy
 public class Pager {
-    @Autowired
-    MovieMapper movieMapper;
-    private int rowCount, startRow, endRow,
-            pageCount, pageSize, startPage, endPage, nowPage,
-            blockCount, blockSize, prevBlock, nextBlock, existPrev, exisNext;
+    @Autowired MovieMapper movieMapper;
+    private int rowCount,rowStart,rowEnd,
+                pageCount,pageSize,pageStart,pageEnd,pageNow,
+                blockCount,blockSize,prevBlock,nextBlock,blockNow;
 
-    public void paging() {
+private boolean existPrev, existNext;
+private String searchWord;
+    public void Pager(){
         rowCount = movieMapper.count();
-        pageSize = 5;
-        pageCount = (rowCount % pageSize != 0) ? rowCount / pageSize + 1 : rowCount / pageSize;
-        blockSize = 5;
-        blockCount = (pageCount % blockSize != 0) ? pageCount / blockSize + 1 : pageCount / blockSize;
-        nowPage = 1;
-        startRow = (nowPage - 1) * pageSize + 1;
-        endRow = (nowPage != pageCount) ? nowPage * pageSize : rowCount;
-//        nowBlock = (nowPage % blockSize != 0) ? nowPage / blockSize + 1 : nowPage / blockSize;
-//        startPage = (nowBlock - 1) * blockSize + 1;
-//        endPage = (nowBlock != blockCount) ? startPage + blockSize : pageCount;
-//        prevBlock = startPage - blockSize;
-//        nextBlock = startPage + blockSize;
-//        existPrev = (nowBlock != 1);
-//        existNext = (nowBlock != blockCount);
+        rowStart = pageNow * pageSize; // 0
+        rowEnd = (pageNow != pageCount -1) ? rowStart + (pageSize-1):rowCount-1; // 4
+        pageCount = (rowCount % pageSize != 0) ? rowCount/pageSize +1 :rowCount / pageSize ; // 10
+        pageStart = blockNow *  blockSize; // 0
+        pageEnd = (blockNow !=(blockNow-1)) ? pageStart + (blockSize - 1):pageCount -1; // 4
+//        pageSize = 5; 주석 = 외부에서 set 받는값
+//        pageNow = 0;
+        blockCount = (pageCount % blockSize != 0) ? pageCount/blockSize +1 :pageCount / blockSize ; // 2
+        prevBlock = pageStart - blockSize; // 0
+        nextBlock = pageStart + blockSize; // 1
+//        blockSize = 5;
+        blockNow = pageNow / blockSize; // 0
+
     }
 }
