@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
-@RequestMapping("/movie")
-@CrossOrigin(origins = "*" ,allowedHeaders = "*")
+@RequestMapping("/movies")
 public class MovieController {
     @Autowired Pager pager;
     @Autowired MovieMapper movieMapper;
@@ -21,7 +20,7 @@ public class MovieController {
     @Autowired Box<Object> box;
 
     //화면 던질때는 MovieDTO
-    @GetMapping("/list/{pageNumber}/{searchWord}")
+    @GetMapping("/{searchWord}/{pageNumber}")
     public Map<?,?> list(@PathVariable("pageNumber") String pageNumber,
                          @PathVariable("searchWord") String searchWord) {
         if(searchWord.equals("")){
@@ -33,17 +32,16 @@ public class MovieController {
         pager.setPageNow(pxy.integer(pageNumber));
         pager.setBlockSize(5);
         pager.setPageSize(5);
+        pager.Pager();
         IFuncion<Pager, List<MovieDTO>> f = s -> movieMapper.selectMovies(pager);
-        List<MovieDTO> l = f.apply(pager);
+        List<MovieDTO> list = f.apply(pager);
         pxy.print("***********");
-        for (MovieDTO m : l){
+        for (MovieDTO m : list){
             pxy.print(m.toString());
         }
         box.clear();
         box.put("pager",pager);
-        box.put("list",l);
-        //        box.put("count",l.size());
-        //        pxy.print(l.get(0).toString());
+        box.put("list",list);
         return box.get();
     }
 

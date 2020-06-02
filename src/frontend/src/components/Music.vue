@@ -54,7 +54,10 @@
         },
         created() {
             axios
-                .get(`${this.$store.state.search.context}/movies/${this.$store.state.search.searchWord}/${this.$store.state.search.pageNumber}`)
+                .post('','',{
+                    Accept :'application/json',
+                    'content-type' :'application/json'
+                })
                 .then(res=>{
                     res.data.list.forEach(elem => {this.list.push(elem)})
                     this.pager = res.data.pager

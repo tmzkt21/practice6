@@ -29,6 +29,11 @@ private String searchWord;
         nextBlock = pageStart + blockSize; // 1
 //        blockSize = 5;
         blockNow = pageNow / blockSize; // 0
+        System.out.println("blockNow :: "+blockNow);
+        existPrev = blockNow != 0;
+        System.out.println("existPrev :: "+existPrev);
+        existPrev = (blockNow +1) != blockNow;
+        System.out.println("existPrev :: "+existNext);
 
     }
 }
