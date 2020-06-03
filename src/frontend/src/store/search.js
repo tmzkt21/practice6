@@ -1,53 +1,60 @@
 import router from "@/router";
+import axios from "axios";
 
 const state ={
     context : "http://localhost:5000",
-    searchWord : "null",
-    pageNumber: "0",
-    soccers : [],
-    movies : [],
-    musics: [],
-    bugsmusic: [],
+    searchWord : 'null',
+    pageNumber: '0',
+    list : [],
+    pages : [],
     pager: {}
 
 }
 const actions ={
     async find({commit},searchWord){
-        alert('>>> '+searchWord)
-        commit("TEST",searchWord)
+        commit("SEARCHWORD",searchWord)
         switch (searchWord) {
-            case '영화': router.push("/Movie")
+            case '영화': router.push("/movie")
                 break
-            case '음악': router.push("/Music")
+            case '음악': router.push("/music")
                 break
-            case '축구': router.push("/Soccer")
+            case '축구': router.push("/soccer")
                 break
         }
-
-
+    },
+    async transferPage({commit},payload){
+        axios.
+        get(`${state.context}/${payload.cate}/${payload.searchWord}/${payload.pageNumber}`)
+            .then(({data})=>{
+                commit("TRANSFER",data)
+            })
+            .catch()
+    },
+    async next({commit},payload){
+    axios.
+    get(`${state.context}/${payload.cate}/${payload.searchWord}/${payload.pageNumber}`)
+        .then(({data})=>{
+            commit("NEXT",data)
+        })
+        .catch(()=>{
+            alert("액션실패!")
+        })
     }
-
 }
 const mutations ={
-    // MOVIE(state, data){
-    //     alert("영화 뮤테이션에서 결과 수 : " + data.count)
-    //     state.movies = []
-    //     state.pager = data.pager;
-    //     data.list.forEach(item => {
-    //         state.movies.push({
-    //             movieSeq: item.movieSeq,
-    //             rank: item.rank,
-    //             title: item.title,
-    //             rankDate: item.rankDate
-    //         });
-    //     });
-    // },
     SEARCHWORD(state, data){
-        alert(`뮤테이션:: ${data}`)
         state.searchWord = data
+    },
+    TRANSFER(state, data){
+        state.pager = data.pager
+        state.list = data.list
+    },
+    NEXT(state,data){
+        state.pager = data.pager
+        state.list = data.list
     }
 }
-const getters ={}
+
 
 
 
@@ -56,7 +63,5 @@ export default {
     namespaced: true,
     state,
     actions,
-    mutations,
-    getters
-
+    mutations
 }

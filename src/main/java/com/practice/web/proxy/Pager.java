@@ -32,7 +32,7 @@ private String searchWord;
         System.out.println("blockNow :: "+blockNow);
         existPrev = blockNow != 0;
         System.out.println("existPrev :: "+existPrev);
-        existPrev = (blockNow +1) != blockNow;
+        existNext = (blockNow +1) != blockNow;
         System.out.println("existPrev :: "+existNext);
 
     }
