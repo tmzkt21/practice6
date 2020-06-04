@@ -14,7 +14,7 @@ const actions = {
         switch (searchWord) {
             case '네이버영화':
                 axios
-                    .get(state.context + `movie/list/0/${searchWord}`)
+                    .get(state.context + `movie/list/0/s/${searchWord}`)
                     .then(({data})=>{
                         alert('액션 자바 데이터 받기 성공')
                         commit("MOVIE",data)

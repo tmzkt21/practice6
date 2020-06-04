@@ -12,7 +12,7 @@ public interface MovieMapper {
     public void insertMovie(MovieDTO movieDTO);
     public void updateMovie(MovieDTO movieDTO);
     public void deleteMovie(MovieDTO movieDTO);
-    public void selectMovie(String value);
+    public MovieDTO selectMovie(String movieSeq);
     public int count();
     public List<MovieDTO> selectMovies(Pager pager);
 }

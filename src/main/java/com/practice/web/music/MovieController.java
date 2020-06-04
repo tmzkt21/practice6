@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/movies")
@@ -23,21 +25,23 @@ public class MovieController {
     @GetMapping("/{searchWord}/{pageNumber}")
     public Map<?,?> list(@PathVariable("pageNumber") String pageNumber,
                          @PathVariable("searchWord") String searchWord) {
-
         pxy.print("넘어온 페이지번호:" + pageNumber);
+        pxy.print("넘어온 검색어:" + searchWord);
 
-        if(searchWord.equals("")){
+        if(searchWord.equals("null")){
             pxy.print("검색어가 없음");
+            pager.setSearchWord("");
         }else{
             pxy.print("검색어가" +searchWord);
+            pager.setSearchWord(searchWord);
         }
 
-
-//        Pager pager = new Pager();
         pager.setPageNow(pxy.integer(pageNumber));
         pager.setBlockSize(5);
         pager.setPageSize(5);
-        pager.setExistNext(true);
+//        pager.setSearchWord(searchWord); 개놈시키
+//        if(searchWord.equals(null))pager.setSearchWord(searchWord);
+//        pager.setExistNext(true);
         pager.Pager();
         IFuncion<Pager, List<MovieDTO>> f = s -> movieMapper.selectMovies(pager);
         List<MovieDTO> list = f.apply(pager);
@@ -50,6 +54,11 @@ public class MovieController {
         box.put("list",list);
         return box.get();
     }
-
+    @GetMapping("/{searchWord}")
+    public MovieDTO detail(@PathVariable("searchWord") String searchWord){
+        IFuncion<String,MovieDTO> f = p -> movieMapper.selectMovie(p);
+        MovieDTO m = f.apply(searchWord);
+        return f.apply(searchWord);
+    }
 
 }

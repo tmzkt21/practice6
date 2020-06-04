@@ -25,7 +25,12 @@
        select movie_seq movieSeq, rank, title, rank_date rankDate
       from movie
 
-      limit #{rowStart}, #{pageSize}
+      <if test="searchWord != null">
+          where title like '%${searchWord}%'
+
+      </if>
+        limit #{rowStart}, #{pageSize}
+
 
     </select>
 

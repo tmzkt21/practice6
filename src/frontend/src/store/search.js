@@ -7,7 +7,8 @@ const state ={
     pageNumber: '0',
     list : [],
     pages : [],
-    pager: {}
+    pager: {},
+    item : {}
 
 }
 const actions ={
@@ -39,7 +40,18 @@ const actions ={
         .catch(()=>{
             alert("액션실패!")
         })
+    },
+    async restrione({commit},payload){
+        axios.get(`${state.context}/${payload.cate}/${payload.searchWord}`)
+            .then(({data})=>{
+                commit("DETAIL",data)
+                router.push('/moviedetail')
+            })
+            .catch(()=>{
+                alert("액션실패!")
+            })
     }
+
 }
 const mutations ={
     SEARCHWORD(state, data){
@@ -49,15 +61,11 @@ const mutations ={
         state.pager = data.pager
         state.list = data.list
     },
-    NEXT(state,data){
-        state.pager = data.pager
-        state.list = data.list
+    DETAIL(state, data){
+        state.item = data
     }
+
 }
-
-
-
-
 export default {
     name:"search",
     namespaced: true,

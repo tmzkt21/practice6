@@ -1,7 +1,10 @@
 <template>
     <div>
         <h3>총게시글수 : {{pager.rowCount}}</h3>
-        <a @click="myAlert('aaaa')">테스트</a>
+        <span style="float: right; margin-right: 200px">
+            <input id="searchWord" type="text" style="border: 1px solid black">
+            <button @click="restriview">검색</button></span>
+<!--        <a @click="tester('aaaa')">테스트</a>-->
         <v-simple-table>
             <template v-slot:default>
                 <thead>
@@ -16,34 +19,28 @@
                 <tr v-for="item of list" :key="item.seq">
                     <td>{{ item.movieSeq }}</td>
                     <td>{{ item.rank}}</td>
-                    <td>{{ item.title }}</td>
+                    <td><a @click="restriOne(item.movieSeq)" href="#">{{item.title}}</a></td>
                     <td>{{ item.rankDate }}</td>
                 </tr>
                 </tbody>
             </template>
         </v-simple-table>
-        <div class="text-center" >
+        <div class="text-center">
             <div style="margin: 0 auto; width: 500px; height: 100px">
-                <span v-if ='pager.existPrev' style="width: 50px; height: 50px; border: 1px solid black;margin-right: 5px">이전</span>
-                <span @click="transferPage(i)" v-for='i of pages' :key="i" style="width: 50px; height: 50px; border: 1px solid black;margin-right: 5px">{{i}}</span>
-                <span @click="Next"  v-if ='pager.existNext' style="width: 50px; height: 50px; border: 1px solid black;margin-right: 5px">다음</span>
+                <span @click="transferPage(pager.prevBlock)" v-if ='pager.existPrev' style="width: 50px; height: 50px; border: 1px solid black;margin-right: 5px">이전</span>
+                <span @click="transferPage(i-1)" v-for='i of pages' :key="i" style="width: 50px; height: 50px; border: 1px solid black;margin-right: 5px">{{i}}</span>
+                <span @click="transferPage(pager.nextBlock)"  v-if ='pager.existNext' style="width: 50px; height: 50px; border: 1px solid black;margin-right: 5px">다음</span>
             </div>
-
             <!--<v-pagination v-model="page" :length="5" :total-visible="5"></v-pagination>-->
         </div>
     </div>
-
-
 </template>
-
 <script>
     import { mapState } from "vuex";
     import {proxy} from "./mixins/proxy"
     export default {
         mixins:[proxy],
-
         created() {
-
             console.log('페이징 가기 전:');
             let json = proxy.methods.pasing(`${this.$store.state.search.context}/movies/null/0`)
             this.$store.state.search.list = json.movies
@@ -60,23 +57,29 @@
         },
         methods: {
             transferPage(d) {
+                proxy.methods.tester(d)
                 alert(`이동 페이지 ${d-1}`)
                 this.$store.dispatch('search/transferPage',
                     {cate:'movies' ,
                     searchWord:'null',
-                    pageNumber: d-1})
+                    pageNumber: d})
             },
-            Next(d){
-                alert(`다음페이지로 가주십시요... ${d}`)
-                this.$store.dispatch('search/next',
+            restriview(){
+                let searchWord = document.getElementById('searchWord').value
+                if(searchWord === '')searchWord = 'null'
+
+                let v = document.getElementById('searchWord').value
+                proxy.methods.tester(v)
+                this.$store.dispatch('search/transferPage',
                     {cate:'movies',
-                        searchWord:'null',
-                        pageNumber:'0'
-                })
+                        searchWord:v,
+                        pageNumber: 0})
+            },
+            restriOne(movieSeq){
+                alert(movieSeq)
+                this.$store.dispatch('search/restrione',
+                    {cate:'movies', searchWord : movieSeq,})
             }
         },
-
     }
-
-
 </script>
