@@ -9,10 +9,14 @@ import java.util.List;
 
 @Repository
 public interface MovieMapper {
-    public void insertMovie(MovieDTO movieDTO);
-    public void updateMovie(MovieDTO movieDTO);
-    public void deleteMovie(MovieDTO movieDTO);
+
+
+    public void insertMovie(MovieDTO movie);
+    public void updateMovie(MovieDTO movie);
+    public void deleteMovie(MovieDTO movie);
     public MovieDTO selectMovie(String movieSeq);
     public int count();
     public List<MovieDTO> selectMovies(Pager pager);
+
+
 }

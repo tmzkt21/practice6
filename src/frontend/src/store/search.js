@@ -18,6 +18,7 @@ const actions ={
             case '영화': router.push("/movie")
                 break
             case '음악': router.push("/music")
+
                 break
             case '축구': router.push("/soccer")
                 break
@@ -54,7 +55,7 @@ const actions ={
 
 }
 const mutations ={
-    SEARCHWORD(state, data){
+    NEXT(state, data){
         state.searchWord = data
     },
     TRANSFER(state, data){

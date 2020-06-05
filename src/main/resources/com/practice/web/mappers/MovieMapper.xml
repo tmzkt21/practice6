@@ -4,44 +4,80 @@
 <mapper namespace="com.practice.web.mappers.MovieMapper">
     <insert id="insertMovie"
             parameterType="com.practice.web.music.MovieDTO">
-        insert rank, title, rank_date into movie
-        values (#{rank},#{title},#{rankDate})
+        insert seq, title, rank_date into movie
+        values (#{seq},#{title},#{rank_date})
+        <selectKey resultType="int" keyProperty="movie_no" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
     </insert>
 
     <update id="updateMovie"
             parameterType="com.practice.web.music.MovieDTO">
-        update set title = #{title} from movie
-        where movie_seq like #{movieSeq}
+        update set title = #{title}
+        from movie
+        where movie_no like #{movieNo}
     </update>
 
     <delete id="deleteMovie"
             parameterType="com.practice.web.music.MovieDTO">
-        delete from movie where movie_seq like #{movieSeq}
+        delete from movie where movie_no like #{movieNo}
     </delete>
-
-    <select id="selectMovies"
-            resultType="com.practice.web.music.MovieDTO"
+    <select id="selectMovies" resultType="com.practice.web.music.MovieDTO"
             parameterType="com.practice.web.proxy.Pager">
-       select movie_seq movieSeq, rank, title, rank_date rankDate
-      from movie
-
-      <if test="searchWord != null">
-          where title like '%${searchWord}%'
-
-      </if>
-        limit #{rowStart}, #{pageSize}
-
+        select movie_no movieNo, seq, title, rank_date rankDate
+        from movie
+        <if test="searchWord != null">
+            where title like '%${searchWord}%'
+        </if>
+        limit #{rowStart},#{pageSize}
 
     </select>
-
     <select id="selectMovie" resultType="com.practice.web.music.MovieDTO"
-                                parameterType="string">
-      select movie_seq movieSeq, rank, title, rank_date rankDate
+            parameterType="string">
+       select movie_no movieNo, seq, title, rank_date rankDate
       from movie
-      where movie_seq = #{value}
+      where movie_no = #{value}
     </select>
     <select id="count" resultType="int">
       select count(*)
       from movie
+    </select>
+
+    <select id="switchMovie" parameterType="com.practice.web.music.MovieDTO"
+            resultType="com.practice.web.music.MovieDTO">
+        SELECT movie_no movieNo, seq, title, rank_date rankDate
+        FROM movie
+        WHERE title like '%${searchWord}%'
+        <choose>
+            <when test="title != null">
+                AND title like #{title}
+            </when>
+            <when test="ost != null and ost.seq != null">
+                AND ost like #{ost.seq}
+            </when>
+            <otherwise>
+                AND rank_date like '${rankDate}%'
+            </otherwise>
+        </choose>
+    </select>
+
+    <update id="updateMovie" parameterType="com.practice.web.music.MovieDTO">
+        update movie
+        <set>
+            <if test="seq != null">seq=#{seq},</if>
+            <if test="title != null">title=#{title},</if>
+            <if test="rank_date != null">rank_date=#{rank_date},</if>
+        </set>
+        where movie_no=#{movie_no}
+    </update>
+
+    <select id="selectPostIn" resultType="com.practice.web.music.MovieDTO">
+        SELECT *
+        FROM musice Pm
+        WHERE seq in
+        <foreach item="movie" index="index" collection="list"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 </mapper>

@@ -7,10 +7,11 @@ import com.practice.web.proxy.Pager;
 import com.practice.web.proxy.Proxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -35,15 +36,12 @@ public class MovieController {
             pxy.print("검색어가" +searchWord);
             pager.setSearchWord(searchWord);
         }
-
         pager.setPageNow(pxy.integer(pageNumber));
         pager.setBlockSize(5);
         pager.setPageSize(5);
-//        pager.setSearchWord(searchWord); 개놈시키
-//        if(searchWord.equals(null))pager.setSearchWord(searchWord);
-//        pager.setExistNext(true);
+
         pager.Pager();
-        IFuncion<Pager, List<MovieDTO>> f = s -> movieMapper.selectMovies(pager);
+        Function<Pager,List<MovieDTO>> f = p -> movieMapper.selectMovies(p);
         List<MovieDTO> list = f.apply(pager);
         pxy.print("***********");
         for (MovieDTO m : list){
