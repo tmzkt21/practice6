@@ -7,7 +7,7 @@
                     <table height="50">
                         <tr>
                             <td>
-                                <router-link to = "/"><img class="logo" src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" height="30" width="92"></router-link>
+                                <router-link to = "/"><img id="minisearch" class="logo" src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" height="30" width="92"></router-link>
                             </td>
                             <td>
                                 <input id="search" type="text" style="background-repeat: no-repeat;" title="검색">
@@ -29,7 +29,7 @@
             </div> <!--search part-->
             <div style="height: 100px;">
             </div>
-            <table id="table" class="border_black" style="margin: 0 auto; ">
+            <table class="table" style="margin: 0 auto; ">
                 <h3 style="display: none">movieSeq : {{item.movieSeq}}</h3>
                 <tr>
                     <td>예매순위</td>
@@ -53,14 +53,17 @@
 <script>
     import {mapState} from "vuex";
     export default {
-        // created() {
-        //     const table = document.getElementById('table')
-        //     table.className += border_black
-        // },
+
+
         computed: {
             ...mapState({
                 item: state => state.search.item
             })
+        }
+        methods: {
+            minisearch(){
+
+            }
         }
     }
 </script>
