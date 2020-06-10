@@ -42,7 +42,7 @@ const actions ={
             alert("액션실패!")
         })
     },
-    async restrione({commit},payload){
+    async retrieveOne({commit},payload){
         axios.get(`${state.context}/${payload.cate}/${payload.searchWord}`)
             .then(({data})=>{
                 commit("DETAIL",data)
